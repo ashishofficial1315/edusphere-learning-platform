@@ -1,0 +1,562 @@
+<html>
+
+<head>
+    <base href="http://localhost:3000">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduSphere - Your Gateway to Learning</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --secondary: #2C3E50;
+            --accent: #F39C12;
+            --bg-light: #ffffff;
+            --bg-dark: #1a1a1a;
+            --text-light: #333;
+            --text-dark: #fff;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: var(--bg-dark);
+            --text-color: var(--text-dark);
+        }
+
+        [data-theme="light"] {
+            --bg-color: var(--bg-light);
+            --text-color: var(--text-light);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .featured-courses {
+            padding: 5rem 2rem;
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .course-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .course-content {
+            padding: 1.5rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .course-details {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .course-details span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .course-details i {
+            color: var(--primary);
+        }
+
+        .course-content p {
+            margin: 1rem 0;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        .course-content h3 {
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .footer {
+            background: var(--secondary);
+            color: white;
+            padding: 4rem 2rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .footer-section h3 {
+            color: var(--accent);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 50px;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .newsletter-form input {
+            padding: 0.8rem;
+            border: none;
+            border-radius: 5px;
+            flex: 1;
+        }
+
+        .newsletter-form button {
+            padding: 0.8rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-form button:hover {
+            background: var(--accent);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-info div {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body data-theme="light">
+
+    <nav class="navbar">
+        <div class="logo">EduSphere</div>
+        <div class="nav-links">
+            <a href="https://edusphere.com">Home</a>
+            <a href="https://edusphere.com/courses">Courses</a>
+            <a href="https://edusphere.com/blog">Blog</a>
+            <a href="https://edusphere.com/contact">Contact</a>
+        </div>
+        <button class="theme-toggle" id="themeToggle">
+            <i class="fas fa-moon"></i>
+        </button>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Learn, Grow, Succeed!</h1>
+            <p>Unlock your potential with our expert-led courses</p>
+            <button class="btn btn-primary">Start Learning</button>
+        </div>
+    </section>
+
+    <section class="featured-courses">
+        <h2 class="section-title">Featured Courses</h2>
+        <div class="course-grid">
+            <div class="course-card">
+                <div class="course-content">
+                    <h3>Web Development Masterclass</h3>
+                    <p>Learn modern web development from scratch, covering HTML, CSS, JavaScript, and popular frameworks
+                        like React and Node.js.</p>
+                    <div class="course-details">
+                        <span><i class="fas fa-clock"></i> 12 weeks</span>
+                        <span><i class="fas fa-user"></i> John Smith</span>
+                        <span><i class="fas fa-star"></i> 4.9</span>
+                    </div>
+                    <button class="btn btn-primary">Learn More</button>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-content">
+                    <h3>AI &amp; Machine Learning</h3>
+                    <p>Master the fundamentals of AI and ML, including Python, TensorFlow, and practical applications in
+                        real-world scenarios.</p>
+                    <div class="course-details">
+                        <span><i class="fas fa-clock"></i> 16 weeks</span>
+                        <span><i class="fas fa-user"></i> Dr. Sarah Chen</span>
+                        <span><i class="fas fa-star"></i> 4.8</span>
+                    </div>
+                    <button class="btn btn-primary">Learn More</button>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-content">
+                    <h3>Mobile App Development</h3>
+                    <p>Create stunning mobile applications for iOS and Android using React Native and modern development
+                        practices.</p>
+                    <div class="course-details">
+                        <span><i class="fas fa-clock"></i> 14 weeks</span>
+                        <span><i class="fas fa-user"></i> Mike Johnson</span>
+                        <span><i class="fas fa-star"></i> 4.7</span>
+                    </div>
+                    <button class="btn btn-primary">Learn More</button>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-content">
+                    <h3>Data Science Fundamentals</h3>
+                    <p>Learn statistical analysis, data visualization, and predictive modeling using Python and R.</p>
+                    <div class="course-details">
+                        <span><i class="fas fa-clock"></i> 15 weeks</span>
+                        <span><i class="fas fa-user"></i> Emily Davis</span>
+                        <span><i class="fas fa-star"></i> 4.9</span>
+                    </div>
+                    <button class="btn btn-primary">Learn More</button>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-content">
+                    <h3>UI/UX Design Essentials</h3>
+                    <p>Master user interface and experience design principles using Figma, Adobe XD, and modern design
+                        tools.</p>
+                    <div class="course-details">
+                        <span><i class="fas fa-clock"></i> 10 weeks</span>
+                        <span><i class="fas fa-user"></i> Alex Turner</span>
+                        <span><i class="fas fa-star"></i> 4.8</span>
+                    </div>
+                    <button class="btn btn-primary">Learn More</button>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-content">
+                    <h3>Cybersecurity Fundamentals</h3>
+                    <p>Learn network security, ethical hacking, and cyber defense strategies from industry experts.</p>
+                    <div class="course-details">
+                        <span><i class="fas fa-clock"></i> 18 weeks</span>
+                        <span><i class="fas fa-user"></i> Robert Wilson</span>
+                        <span><i class="fas fa-star"></i> 4.9</span>
+                    </div>
+                    <button class="btn btn-primary">Learn More</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About EduSphere</h3>
+                <p>EduSphere is your gateway to learning, offering cutting-edge courses in technology, design, and
+                    business. Join our community of learners and unlock your potential today.</p>
+                <div class="social-links">
+                    <a href="https://facebook.com/edusphere"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://twitter.com/edusphere"><i class="fab fa-twitter"></i></a>
+                    <a href="https://linkedin.com/company/edusphere"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://instagram.com/edusphere"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <div class="footer-links">
+                    <a href="https://edusphere.com/about"><i class="fas fa-angle-right"></i> About Us</a>
+                    <a href="https://edusphere.com/courses"><i class="fas fa-angle-right"></i> Our Courses</a>
+                    <a href="https://edusphere.com/instructors"><i class="fas fa-angle-right"></i> Instructors</a>
+                    <a href="https://edusphere.com/blog"><i class="fas fa-angle-right"></i> Blog</a>
+                    <a href="https://edusphere.com/contact"><i class="fas fa-angle-right"></i> Contact Us</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <div class="contact-info">
+                    <div>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>123 Learning Street, Education City, 12345</span>
+                    </div>
+                    <div>
+                        <i class="fas fa-phone"></i>
+                        <span>+1 234 567 8900</span>
+                    </div>
+                    <div>
+                        <i class="fas fa-envelope"></i>
+                        <span>info@edusphere.com</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Subscribe to our newsletter for the latest updates and special offers.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email">
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p> 2023 EduSphere. All rights reserved. | Designed with <i class="fas fa-heart"
+                    style="color: var(--accent)"></i> by EduSphere Team</p>
+        </div>
+    </footer>
+
+    <script>async function loadSharedComponents() {
+            const navAndFooter = {
+                nav: `<nav class="navbar">
+          <div class="logo">EduSphere</div>
+          <div class="nav-links">
+            <a href="https://edusphere.com">Home</a>
+            <a href="https://edusphere.com/courses">Courses</a>
+            <a href="https://edusphere.com/blog">Blog</a>
+            <a href="https://edusphere.com/contact">Contact</a>
+          </div>
+          <button class="theme-toggle" id="themeToggle">
+            <i class="fas fa-moon"></i>
+          </button>
+        </nav>`
+            };
+            document.body.insertAdjacentHTML('afterbegin', navAndFooter.nav);
+        }
+        function initThemeToggle() {
+            const themeToggle = document.getElementById('themeToggle');
+            const body = document.body;
+            const icon = themeToggle.querySelector('i');
+            themeToggle.addEventListener('click', () => {
+                if (body.getAttribute('data-theme') === 'light') {
+                    body.setAttribute('data-theme', 'dark');
+                    icon.classList.replace('fa-moon', 'fa-sun');
+                } else {
+                    body.setAttribute('data-theme', 'light');
+                    icon.classList.replace('fa-sun', 'fa-moon');
+                }
+            });
+        }
+        function initAnimations() {
+            gsap.registerPlugin(ScrollTrigger);
+            gsap.from('.hero-content', {
+                duration: 1,
+                y: 100,
+                opacity: 0,
+                ease: 'power3.out'
+            });
+            gsap.from('.course-card', {
+                scrollTrigger: {
+                    trigger: '.course-grid',
+                    start: 'top center+=100',
+                    toggleActions: 'play none none reverse'
+                },
+                duration: 0.8,
+                y: 50,
+                opacity: 0,
+                stagger: 0.2,
+                ease: 'power3.out'
+            });
+        }
+        document.addEventListener('DOMContentLoaded', loadSharedComponents);
+        initThemeToggle();
+        initAnimations();
+    </script>
+
+</body>
+
+</html>
